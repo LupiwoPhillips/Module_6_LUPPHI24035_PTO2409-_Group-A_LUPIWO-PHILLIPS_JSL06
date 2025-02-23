@@ -80,3 +80,9 @@ footer {
     bottom: 0; /* Add this to position it at the bottom */
     width: 100%; /* Add this to span the full width */
 }
+
+
+body { font-family: Arial, sans-serif; margin: 20px; }
+ul { list-style-type: none; padding: 0; }
+li { margin: 5px 0; padding: 8px; background: #f8f8f8; border-radius: 5px; }
+li:hover { background: #ddd; }

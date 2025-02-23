@@ -1,58 +1,71 @@
-// Sample menu data (Consider fetching this data from a server in a real-world scenario)
+// Sample menu data (data from a server in a real-world scenario)
 const menu = {
-    Starters: ["Garlic Bread", "Bruschetta"],
-    MainCourses: ["Margherita Pizza", "Spaghetti Carbonara"],
-    Desserts: ["Tiramisu", "Cheesecake"]
+    Starters: { "Garlic Bread": 5.99, "Bruschetta": 6.99 },
+    MainCourses: { "Margherita Pizza": 12.99, "Spaghetti Carbonara": 14.99 },
+    Desserts: { "Tiramisu": 7.99, "Cheesecake": 8.99 }
+};
+
+// Order state
+const order = {
+    items: [],
+    total: 0
 };
 
 // Function to display menu items by category
 function displayMenuItems(menu) {
-    // Get the menu container element from the HTML
+    const menuContainer = document.getElementById("menu"); // Get the menu container
 
-    // Loop through each category and its items in the menu object
+    for (const category in menu) {
+        // Create a category element
+        const categoryElement = document.createElement("h2");
+        categoryElement.textContent = category;
+        menuContainer.appendChild(categoryElement);
 
-        // Create an element to represent the category
+        // Create a list for items
+        const itemList = document.createElement("ul");
 
-        // Set the text content of the category element to the category name
+        for (const item in menu[category]) {
+            const price = menu[category][item];
 
-        // Append the category element to the menu container
+            // Create a list item
+            const listItem = document.createElement("li");
+            listItem.textContent = `${item} - $${price.toFixed(2)}`;
+            listItem.style.cursor = "pointer";
 
-        // Create an element to represent a list of items
+            // Add event listener to handle adding items to order
+            listItem.addEventListener("click", () => addToOrder(item, price));
 
-        // Append a list of items element to the menu container
+            itemList.appendChild(listItem);
+        }
 
-        // Loop through the items in the category and create list items
-
-            // Create a list item element
-
-            // Set the text content of the list item element to the item name
-
-            // Attach a click event listener to the list item to add it to the order
-
-            // Append the list item to the list of items
-
-            
+        menuContainer.appendChild(itemList);
+    }
 }
 
-// Callback function for adding an item to the order
-function addToOrder(itemName) {
-    // Get the order items list and the order total element from the HTML
+// Function to add an item to the order
+function addToOrder(itemName, itemPrice) {
+    const orderItemsList = document.getElementById("order-items");
+    const orderTotalElement = document.getElementById("order-total");
 
-    // Create a list item for the order
+    // Create a new order list item
+    const orderItem = document.createElement("li");
+    orderItem.textContent = `${itemName} - $${itemPrice.toFixed(2)}`;
+    orderItemsList.appendChild(orderItem);
 
-    // Set the text content of the list item to the item name
+    // Update order state
+    order.items.push({ name: itemName, price: itemPrice });
+    order.total += itemPrice;
 
-    // Append the list item to the order items list
-
-    // Calculate and update the total price
-
-    // Update the text content of the order total element with the new total
+    // Update total price in the UI
+    orderTotalElement.textContent = `Total: $${order.total.toFixed(2)}`;
 }
 
 // Function to initialize the menu system
 function initMenuSystem(menu) {
-    // Call the function to display menu items
+    displayMenuItems(menu);
 }
 
-// Start the menu system by calling the init function
-initMenuSystem(menu);
+// Start the menu system
+document.addEventListener("DOMContentLoaded", () => {
+    initMenuSystem(menu);
+});
